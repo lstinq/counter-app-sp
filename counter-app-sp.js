@@ -18,6 +18,7 @@ export class CounterAppSp extends DDDSuper(I18NMixin(LitElement)) {
     return "counter-app-sp";
   }
 
+  // Sets default property values and registers localization
   constructor() {
     super();
     this.title = "";
@@ -52,23 +53,27 @@ export class CounterAppSp extends DDDSuper(I18NMixin(LitElement)) {
   static get styles() {
     return [super.styles,
     css`
+    /* Base styles for the component */
       :host {
         display: block;
         color: var(--ddd-theme-default-white);
         background-color: var(--ddd-theme-default-nittanyNavy);
         font-family: var(--ddd-font-navigation);
       }
+      /* Wrapper for content with spacing and centering */
       .wrapper {
         margin: var(--ddd-spacing-2);
         padding: var(--ddd-spacing-4);
         text-align: center;
       }
+      /* Counter display with dynamic color based on count value */
       .counter-display {
         font-size: var(--ddd-font-size-xxl);
         font-weight: var(--ddd-font-weight-bold);
         margin: var(--ddd-spacing-4) 0;
         color: var(--ddd-theme-default-white);
       }
+      /* Dynamic color changes for specific count values */
       :host([data-color="limit"]) .counter-display {
         color: var(--ddd-theme-default-pughBlue);
       }
@@ -78,18 +83,21 @@ export class CounterAppSp extends DDDSuper(I18NMixin(LitElement)) {
       :host([data-color="twenty-one"]) .counter-display {
         color: var(--ddd-theme-default-pughBlue);
       }
+      /* Title styling */
       .title {
         font-size: var(--ddd-font-size-l);
         font-weight: var(--ddd-font-weight-bold);
         color: var(--ddd-theme-default-pughBlue);
         margin-bottom: var(--ddd-spacing-4);
       }
+      /* Controls styling with spacing and button styles */
       .controls {
         display: flex;
         justify-content: center;
         gap: var(--ddd-spacing-4);
         margin-bottom: var(--ddd-spacing-4);
       }
+      /* Button styles with hover and disabled states */
       button {
         background-color: var(--ddd-theme-default-beaverBlue);
         color: var(--ddd-theme-default-white);
@@ -99,9 +107,11 @@ export class CounterAppSp extends DDDSuper(I18NMixin(LitElement)) {
         font-weight: var(--ddd-font-weight-bold);
         cursor: pointer;
       }
+      /* Hover state for buttons */
       button:hover:not(:disabled) {
         background-color: var(--ddd-theme-default-pughBlue);
       }
+      /* Disabled state for buttons */
       button:disabled {
         background-color: var(--ddd-theme-default-gray);
         cursor: not-allowed;
@@ -109,6 +119,7 @@ export class CounterAppSp extends DDDSuper(I18NMixin(LitElement)) {
     `];
   }
 
+  // React to changes in the count property to update styles and trigger confetti at 21
   updated(changedProperties) {
     if (super.updated) {
       super.updated(changedProperties);
@@ -130,6 +141,7 @@ export class CounterAppSp extends DDDSuper(I18NMixin(LitElement)) {
     }
   }
 
+  // Dynamically import confetti container and trigger confetti
   makeItRain() {
   import("@haxtheweb/multiple-choice/lib/confetti-container.js").then(
     (module) => {
@@ -158,6 +170,7 @@ export class CounterAppSp extends DDDSuper(I18NMixin(LitElement)) {
   </confetti-container>`;
   }
 
+  // Decrement and increment methods with boundary checks
   decrement() {
     if (this.count === this.min) {
       return;
